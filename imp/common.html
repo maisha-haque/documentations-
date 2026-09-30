@@ -1,0 +1,82 @@
+<!-- in src create a components folder 
+ that will contain pages layouts and common -->
+
+ <!-- in common we put the reusable ui for react as files ex-
+  Button.jsx , Container.jsx, Flex.jsx , Heading.jsx , Image.jsx  -->
+
+  <!-- FOR Button.jsx -->
+
+import React from 'react'
+
+const Button = ({className, btntext}) => {
+  return (
+
+    <button className={`py-3 px-14 m-2 ${className}`}>{btntext}</button>
+
+  )
+}
+
+export default Button
+
+<!--  FOR Container.jsx -->
+
+import React from 'react'
+
+const Container = ({ className, children }) => {
+  return (
+
+    <div className={`w-330 m-auto ${className}`}>{children}</div>
+
+  )
+}
+
+export default Container
+
+
+<!-- FOR Flex.jsx -->
+
+import React from 'react'
+
+const Flex = ({className, children}) => {
+  return (
+
+    <div className={`flex items-center ${className}`}>{children}</div>
+
+  )
+}
+
+export default Flex
+
+<!-- FOR Image.jsx  -->
+
+import React from 'react'
+
+const Image = ({imgSrc, imgAlt, className}) => {
+  return (
+
+    <img src={imgSrc} alt={imgAlt} className={`${className}`} />
+
+  )
+}
+
+export default Image
+
+<!-- FOR Heading.jsx -->
+
+import React from 'react'
+
+const Heading = (props) => {
+  return (
+     <props.as className={props.className}>{props.text}</props.as>
+  )
+}
+
+export default Heading
+
+<!-- to use heading write it as, use whatever text type in "as" -->
+
+<Heading
+  as="h1"
+  className="text-4xl font-bold"
+  text="Welcome to our Shop"
+/> 
