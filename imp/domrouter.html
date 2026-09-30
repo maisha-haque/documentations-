@@ -1,0 +1,74 @@
+<!-- 1:  npm install react-router-dom  -->
+
+
+<!-- 2: Got To main.jsx   -->
+
+
+import { BrowserRouter } from 'react-router-dom';
+ 
+ AND THEN
+
+   <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
+
+  <!-- 3 : IN SRC FOLDER CREATE TWO FOLDERS CALLED pages AND layouts -->
+
+ [CREATE Rootlayout.jsx, Header.jsx, Footer.jsx in layouts folder]
+
+ [CREATE Home.jsx, About.jsx, Error.jsx in pages folder]
+ 
+
+<!-- 4: GO TO App.jsx and then  -->
+
+
+   import { Routes, Route } from 'react-router-dom'
+
+    <Routes>
+      <Route path="/" element={<RootLayout />}>
+        <Route index element={<Home />} />          
+        <Route path="about" element={<About />} /> 
+        <Route path="*" element={<Error />} /> 
+      </Route>
+    </Routes>
+  
+ 
+  <!-- 5: Go to RootLayout.jsx -->
+
+
+
+ import { Outlet } from 'react-router-dom'
+
+
+      <Header/>
+        <Outlet/>
+      <Footer/>
+    
+    
+
+
+
+
+ <!-- GO TO App.jsx 
+ import {Rootlayout} 
+ import {Home}
+import {About} -->
+
+    
+
+
+<!-- to link in navbar -->
+
+          <div>
+            <ul className='flex gap-2 text-blue-800 font-bold font-serif'>
+
+              <li><Link to={"/"}>HOME</Link></li>
+              <li><Link to={"/about"}>ABOUT</Link></li> 
+
+              <!-- <li><Link to={"/shop"}>SHOP</Link></li>
+              <li><Link to={"/contact"}>CONTACT</Link></li> -->
+
+            </ul>
+          </div>

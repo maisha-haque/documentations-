@@ -1,0 +1,38 @@
+import { useState, useRef } from "react";
+
+function App() {
+  
+  let dropRef = useRef(null);
+
+  let handleDrop = () => {
+    
+     dropRef.current.style.display = "block";
+
+    if (dropRef.current.style.display == "block") {
+      dropRef.current.style.display = "none";
+    } 
+    
+    else {
+      dropRef.current.style.display = "block";
+    }
+  };
+
+  return (
+    <>
+      <div onClick={handleDrop}>
+        <button className="click_btn">Click</button>
+
+        <div className="bg-teal-500 hidden" ref={dropRef}>
+          <ul>
+            <li>Home</li>
+            <li>Home</li>
+            <li>Home</li>
+            <li>Home</li>
+          </ul>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default App;

@@ -1,0 +1,68 @@
+<!-- api n main.jsx
+
+FOR API DOWNNLOAD AXIOS , CHANGE THE MAIN.JSX TOO
+
+THEN IN SRC FOLDER MAKE A FOLDER NAMED contextAPI
+
+IN THAT CREATE A FILE NAMES DataContext.jsx
+
+ PASTE THIS INSIDE   -->
+
+ 
+import axios from "axios";
+import { createContext, useEffect, useState } from "react";
+
+
+export const DataContext = createContext();
+
+export const Provider = ({ children }) => {
+
+  const [allData, setAllData] = useState([]);
+
+  useEffect(() => {
+    async function alldatas() {
+      const response = await axios.get(
+        "https://dummyjson.com/products"
+      );
+
+      setAllData(response.data.products);
+    }
+
+    alldatas();
+  }, []);
+
+
+  return (
+    <DataContext.Provider value={{ allData }}>
+      {children}
+    </DataContext.Provider>
+  );
+
+};
+
+
+
+<!-- make sure to change the main.jsx file before applying these to shop -->
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom';
+import './index.css'
+import App from './App.jsx'
+import { Provider } from './components/pages/contextAPI/DataContext.jsx';
+
+
+createRoot(document.getElementById('root')).render(
+<StrictMode>
+    <BrowserRouter>
+      <Provider>
+        <App />
+      </Provider>
+    </BrowserRouter>
+  </StrictMode>,
+)
+
+
+
+
+

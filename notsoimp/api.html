@@ -1,0 +1,46 @@
+
+<!-- FOR SECTION API WHERE SLIDER CAN BE ADDED -->
+
+
+import React, { useEffect } from 'react'
+import Product from '../common/Product'
+import { useState } from 'react'
+import axios from 'axios';
+
+const shop = () => {
+
+    let [allData, SetAllData] = useState([]);
+    useEffect(() => {
+        async function alldatas() {
+            let data = await axios.get("https://dummyjson.com/users");
+            SetAllData(data.data.users);
+            // console.log(data.data.users);
+        }
+        alldatas()
+    }, [])
+
+    return (
+        
+         <div className='py-20'>
+            <div className="w-330 m-auto">
+              <div className="flex flex-wrap gap-x2 justify-between gap-y-3">
+                  {allData.filter((item) => item.age > 30).slice(0, 5).map((item) => (
+                      <div className="w-1/4 p-5">
+                              <Product
+                                imgSrc={item.image}
+                                proTitle={item.firstName}
+                                proprice={item.lastName}
+                                proage={item.age}
+                                promail={item.email}
+                            
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+        </div>
+    )
+}
+
+export default Newarrival

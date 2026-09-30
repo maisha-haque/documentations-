@@ -1,0 +1,109 @@
+<!-- INSTALLING REDUX 
+
+Step 1
+
+npm install @reduxjs/toolkit react-redux     
+
+Step 2
+
+📁 src/app/store.js
+
+
+import { configureStore } from "@reduxjs/toolkit";
+import cartReducer from "../features/cart/cartSlice";
+
+const store = configureStore({
+  reducer: {
+    cart: cartReducer,
+  },
+});
+
+export default store;
+
+
+
+Step 3
+
+📁 src/features/cart/cartSlice.js
+
+
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  cartItems: [],
+  cartCount: 0,
+};
+
+const cartSlice = createSlice({
+  name: "cart",
+  initialState,
+
+  reducers: {
+    addToCart: (state, action) => {
+      state.cartItems.push(action.payload);
+      state.cartCount += 1;
+    },
+  },
+});
+
+export const { addToCart } = cartSlice.actions;
+
+export default cartSlice.reducer;
+
+
+Step 4
+
+In main.jsx
+
+import { Provider } from "react-redux";
+import store from "./app/store";
+
+
+
+<Provider store={store}>
+  <App />
+</Provider>
+
+
+Step 5
+
+import { useDispatch } from "react-redux";
+import { addToCart } from "/src/features/cart/cartSlice";
+
+
+const dispatch = useDispatch();
+
+const handleAddToCart = () => {
+  dispatch(addToCart());
+};
+
+<h3 onClick={handleAddToCart}>
+  Add to Cart
+</h3>
+
+
+
+
+Step 6
+
+In Header.jsx, we imported:
+import { useSelector } from "react-redux";
+
+
+
+
+const cartCount = useSelector(
+  (state) => state.cart.cartCount
+);
+
+Step 7
+
+<div className="relative">
+  <FaShoppingCart />
+
+  {cartCount > 0 && (
+    <span>
+      {cartCount}
+    </span>
+  )}
+</div> -->
