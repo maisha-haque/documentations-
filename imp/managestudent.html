@@ -1,0 +1,246 @@
+
+import './App.css';
+import { useState, useEffect } from "react";
+
+function App() {
+  const [students, setStudents] = useState([]);
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [search, setSearch] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+
+  // Load students
+
+  useEffect(() => {
+    const savedStudents = localStorage.getItem("students");
+
+    if (savedStudents !== null) {
+      setStudents(JSON.parse(savedStudents));
+    }
+
+    setLoaded(true);
+  }, []);
+
+  // Save students
+
+  useEffect(() => {
+    if (loaded) {
+      localStorage.setItem("students", JSON.stringify(students));
+    }
+  }, [students, loaded]);
+
+  // Add or update student
+  function handleSave() {
+    if (name.trim() === "" || age === "") {
+      return;
+    }
+
+    if (Number(age) <= 0) {
+      return;
+    }
+
+    const student = {
+      name: name,
+      age: age
+    };
+
+    if (editIndex !== null) {
+      const updatedStudents = students.slice();
+
+      updatedStudents[editIndex] = student;
+
+      setStudents(updatedStudents);
+      setEditIndex(null);
+    } else {
+      const updatedStudents = students.concat(student);
+
+      setStudents(updatedStudents);
+    }
+
+    setName("");
+    setAge("");
+  }
+
+  // Edit student
+
+  function handleEdit(index) {
+    setName(students[index].name);
+    setAge(students[index].age);
+    setEditIndex(index);
+  }
+
+  // Delete student
+
+  function handleDelete(index) {
+    const updatedStudents = [];
+
+    for (let i = 0; i < students.length; i++) {
+      if (i !== index) {
+        updatedStudents.push(students[i]);
+      }
+    }
+
+    setStudents(updatedStudents);
+
+    if (editIndex === index) {
+      handleCancel();
+    } else if (editIndex !== null && editIndex > index) {
+      setEditIndex(editIndex - 1);
+    }
+  }
+
+  // Cancel editing
+  
+  function handleCancel() {
+    setName("");
+    setAge("");
+    setEditIndex(null);
+  }
+
+  // Search students
+  const filteredStudents = [];
+
+  for (let i = 0; i < students.length; i++) {
+    if (
+      students[i].name.toLowerCase().includes(search.toLowerCase())
+    ) {
+      filteredStudents.push({
+        student: students[i],
+        index: i
+      });
+    }
+  }
+
+  return (
+    <div className="p-5 w-150 m-auto">
+
+      <h1 className="text-2xl font-bold mb-4 text-center text-pink-800">
+        Student Management System
+      </h1>
+
+      {/* Input Section */}
+      <div className="border border-pink-800 p-4 rounded mb-6 bg-white">
+
+        <h2 className="text-lg font-bold mb-3 text-pink-800">
+          {editIndex !== null ? "Edit Student" : "Add Student"}
+        </h2>
+
+        <div className="mb-3">
+          <p className="mb-1 text-pink-800 font-bold">Name:</p>
+
+          <input
+            type="text"
+            placeholder="Enter name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            className="border border-pink-800 p-2 w-full rounded text-pink-800"
+          />
+        </div>
+
+        <div className="mb-3">
+          <p className="mb-1 text-pink-800 font-bold">Age:</p>
+
+          <input
+            type="number"
+            placeholder="Enter age"
+            value={age}
+            onChange={(event) => setAge(event.target.value)}
+            className="border border-pink-800 p-2 w-full rounded text-pink-800"
+          />
+        </div>
+
+        <div className="flex items-center gap-2 mt-4 flex-wrap">
+
+          <button
+            type="button"
+            onClick={handleSave}
+            className="bg-pink-500 text-white px-6 py-2 rounded cursor-pointer hover:bg-pink-300 hover:text-pink-800"
+          >
+            {editIndex !== null ? "Update" : "Add"}
+          </button>
+
+          {editIndex !== null && (
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="bg-gray-400 text-white px-4 py-2 rounded"
+            >
+              Cancel
+            </button>
+          )}
+
+        </div>
+      </div>
+
+      {/* Student List */}
+      <div>
+
+        <h2 className="text-2xl font-bold mb-3 text-center text-pink-800">
+          Students ({students.length})
+        </h2>
+
+        {/* Search */}
+        <input
+          type="text"
+          placeholder="Search students..."
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          className="border border-pink-800 p-2 w-full rounded text-pink-800 mb-4"
+        />
+
+        {filteredStudents.length === 0 ? (
+          <div className="p-4 text-center text-pink-800 border rounded">
+            No students found.
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+
+            {filteredStudents.map((item) => (
+              <div
+                key={item.index}
+                className="border border-pink-800 p-3 rounded bg-white flex justify-between items-center"
+              >
+
+                <div>
+                  <p className="text-pink-500">
+                    <b>Name:</b> {item.student.name}
+                  </p>
+
+                  <p className="text-pink-500">
+                    <b>Age:</b> {item.student.age}
+                  </p>
+                </div>
+
+                <div className="flex gap-2">
+
+                  <button
+                    type="button"
+                    onClick={() => handleEdit(item.index)}
+                    className="bg-pink-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-pink-300 hover:text-pink-800"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(item.index)}
+                    className="bg-pink-500 text-white px-2 py-1 rounded cursor-pointer hover:bg-pink-300 hover:text-pink-800"
+                  >
+                    Delete
+                  </button>
+
+                </div>
+              </div>
+            ))}
+
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
+
+export default App;
+
