@@ -1,0 +1,200 @@
+<!-- first import -->
+
+import './App.css';
+import { useState } from "react";
+
+<!-- start with usestates -->
+
+const [students, setStudents] = useState([]);                first
+
+const [name, setName] = useState("");                        second
+
+const [age, setAge] = useState("");                          third
+
+<!-- Connect the use states line by line, first name then age -->
+
+<!-- name -->
+
+<input
+  type="text"
+  placeholder="Enter name"
+  value={name}
+  onChange={(event) => setName(event.target.value)}
+  className="border border-pink-800 p-2 w-full rounded text-pink-800"
+/>
+
+<!-- age -->
+
+<input
+  type="number"
+  placeholder="Enter age"
+  value={age}
+  onChange={(event) => setAge(event.target.value)}
+  className="border border-pink-800 p-2 w-full rounded text-pink-800"
+/>
+
+<!-- now make the add button logic and  connect it to the add button-->
+
+function handleSave() {
+  if (name.trim() === "" || age === "") {
+    return;
+  }
+
+  if (Number(age) <= 0) {
+    return;
+  }
+
+  const student = { name, age };
+
+  const updatedStudents = students.concat(student);
+
+  setStudents(updatedStudents);
+
+  setName("");
+  setAge("");
+}
+
+<button
+  onClick={handleSave}
+  className="bg-pink-500 text-white px-6 py-2 rounded cursor-pointer hover:bg-pink-300 hover:text-pink-800"
+>
+  Add
+</button>
+
+  
+<!-- student list array  -->
+
+Students ({students.length})
+
+
+<div className="flex flex-col gap-3">
+
+  {students.map((student, index) => (
+    <div
+      key={index}
+      className="border border-pink-800 p-3 rounded bg-white flex justify-between items-center"
+    >
+      <div>
+        <p className="text-pink-500">
+          <b>Name:</b> {student.name}
+        </p>
+
+        <p className="text-pink-500">
+          <b>Age:</b> {student.age}
+        </p>
+      </div>
+
+      <div className="flex gap-2">
+        <button className="bg-pink-500 text-white px-4 py-2 rounded">
+          Edit
+        </button>
+
+        <button className="bg-pink-500 text-white px-2 py-1 rounded">
+          Delete
+        </button>
+      </div>
+    </div>
+  ))}
+
+</div>
+
+<!-- DELETE button logic .. then add it to the button  -->
+
+ function handleDelete(index) {
+  const updatedStudents = [];
+
+  for (let i = 0; i < students.length; i++) {
+    if (i !== index) {
+      updatedStudents.push(students[i]);
+    }
+  }
+
+  setStudents(updatedStudents);
+}
+
+                      
+<button
+  onClick={() => handleDelete(index)}
+  className="bg-pink-500 text-white px-2 py-1 rounded cursor-pointer hover:bg-pink-300 hover:text-pink-800"
+>
+  Delete
+</button>
+
+<!-- Search STATE and Functions, connect it to the input -->
+
+const [search, setSearch] = useState("");
+
+<input
+  type="text"
+  placeholder="Search students"
+  value={search}
+  onChange={(event) => setSearch(event.target.value)}
+  className="border border-pink-800 p-2 w-full rounded text-pink-800 mb-4 text-center"
+/>
+
+<!-- filter array and function -->
+    
+const filteredStudents = students.filter((student) =>
+  student.name.includes(search)
+);
+
+{filteredStudents.map((student) => (
+  <div key={student.name}>
+    {student.name}
+  </div>
+))}
+
+
+<!-- Edit button, functions and logic -->
+
+const [editIndex, setEditIndex] = useState(null);
+
+function handleEdit(index) {
+  setName(students[index].name);
+  setAge(students[index].age);
+  setEditIndex(index);
+}
+
+if (editIndex !== null) {
+  const updatedStudents = students.slice();
+
+  updatedStudents[editIndex] = student;
+
+  setStudents(updatedStudents);
+  setEditIndex(null);
+} else {
+  const updatedStudents = students.concat(student);
+
+  setStudents(updatedStudents);
+}
+
+{editIndex !== null ? "Update" : "Add"}
+    
+<button onClick={() => handleEdit(index)}>
+  Edit
+</button>
+
+<!-- local storage state, functions and logic -->
+    
+import { useState, useEffect } from "react";
+
+const [loaded, setLoaded] = useState(false);
+
+useEffect(() => {
+  const savedStudents = localStorage.getItem("students");
+
+  if (savedStudents !== null) {
+    setStudents(JSON.parse(savedStudents));
+  }
+
+  setLoaded(true);
+}, []);
+
+
+useEffect(() => {
+  if (loaded) {
+    localStorage.setItem("students", JSON.stringify(students));
+  }
+}, [students, loaded]);
+
+<!-- done -->
