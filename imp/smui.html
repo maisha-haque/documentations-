@@ -1,0 +1,112 @@
+import './App.css';
+
+function App() {
+  return (
+
+    <div className="p-5 w-150 m-auto">
+
+      <h1 className="text-2xl font-bold mb-4 text-center text-pink-800">
+        Student Management System
+      </h1>
+
+
+      <div className="border border-pink-800 p-4 rounded mb-6 bg-white">
+
+        <h2 className="text-lg font-serif mb-3 text-pink-800">
+          Student Info
+        </h2>
+
+        <div className="mb-3">
+
+          <p className="mb-1 text-pink-800 font-serif">Name:</p>
+
+          <input
+            type="text"
+            placeholder="Enter name"
+            className="border border-pink-800 p-2 w-full rounded text-pink-800"
+          />
+
+        </div>
+
+        <div className="mb-3">
+
+          <p className="mb-1 text-pink-800 font-serif">Age:</p>
+
+          <input
+            type="number"
+            placeholder="Enter age"
+            className="border border-pink-800 p-2 w-full rounded text-pink-800"
+          />
+
+        </div>
+
+        <div className="flex items-center gap-2 mt-4 flex-wrap">
+
+          <button
+            className="bg-pink-500 text-white px-6 py-2 rounded cursor-pointer hover:bg-pink-300 hover:text-pink-800"
+          >
+            Add
+          </button>
+
+        </div>
+      </div>
+
+   <!-- second div part -->
+      
+      <div>
+
+        <h2 className="text-2xl font-bold mb-3 text-center text-pink-800">
+          Students (0)
+        </h2>
+
+      
+
+        <input
+          type="text"
+          placeholder="Search students"
+          className="border border-pink-800 p-2 w-full rounded text-pink-800 mb-4 text-center"
+        />
+
+     
+
+        <div className="flex flex-col gap-3">
+
+          <div className="border border-pink-800 p-3 rounded bg-white flex justify-between items-center">
+
+            <div>
+
+              <p className="text-pink-500">
+                <b>Name:</b>
+              </p>
+
+              <p className="text-pink-500">
+                <b>Age:</b>
+              </p>
+
+            </div>
+
+            <div className="flex gap-2">
+
+              <button
+                className="bg-pink-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-pink-300 hover:text-pink-800"
+              >
+                Edit
+              </button>
+
+              <button
+                className="bg-pink-500 text-white px-2 py-1 rounded cursor-pointer hover:bg-pink-300 hover:text-pink-800"
+              >
+                Delete
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+export default App;
